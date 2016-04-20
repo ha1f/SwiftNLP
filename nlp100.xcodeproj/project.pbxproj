@@ -13,6 +13,8 @@
 		8483331A1CC6259E006E6E8D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 848333181CC6259E006E6E8D /* Main.storyboard */; };
 		848333251CC6259E006E6E8D /* nlp100Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848333241CC6259E006E6E8D /* nlp100Tests.swift */; };
 		848333301CC6259E006E6E8D /* nlp100UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8483332F1CC6259E006E6E8D /* nlp100UITests.swift */; };
+		848333401CC6264D006E6E8D /* Nlp100.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8483333F1CC6264D006E6E8D /* Nlp100.swift */; };
+		848333431CC739C7006E6E8D /* NN.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848333421CC739C7006E6E8D /* NN.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,7 +37,7 @@
 /* Begin PBXFileReference section */
 		8483330F1CC6259D006E6E8D /* nlp100.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = nlp100.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		848333121CC6259D006E6E8D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		848333141CC6259D006E6E8D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		848333141CC6259D006E6E8D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = nlp100/ViewController.swift; sourceTree = SOURCE_ROOT; };
 		848333161CC6259D006E6E8D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		848333191CC6259E006E6E8D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8483331B1CC6259E006E6E8D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -45,6 +47,8 @@
 		8483332B1CC6259E006E6E8D /* nlp100UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = nlp100UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8483332F1CC6259E006E6E8D /* nlp100UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = nlp100UITests.swift; sourceTree = "<group>"; };
 		848333311CC6259E006E6E8D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8483333F1CC6264D006E6E8D /* Nlp100.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Nlp100.swift; sourceTree = "<group>"; };
+		848333421CC739C7006E6E8D /* NN.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NN.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,8 +99,10 @@
 		848333111CC6259D006E6E8D /* nlp100 */ = {
 			isa = PBXGroup;
 			children = (
+				848333411CC739A8006E6E8D /* NN */,
+				8483333E1CC625F8006E6E8D /* nlp */,
+				8483333D1CC625D2006E6E8D /* ViewController */,
 				848333121CC6259D006E6E8D /* AppDelegate.swift */,
-				848333141CC6259D006E6E8D /* ViewController.swift */,
 				848333161CC6259D006E6E8D /* Assets.xcassets */,
 				848333181CC6259E006E6E8D /* Main.storyboard */,
 				8483331B1CC6259E006E6E8D /* Info.plist */,
@@ -120,6 +126,30 @@
 				848333311CC6259E006E6E8D /* Info.plist */,
 			);
 			path = nlp100UITests;
+			sourceTree = "<group>";
+		};
+		8483333D1CC625D2006E6E8D /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				848333141CC6259D006E6E8D /* ViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		8483333E1CC625F8006E6E8D /* nlp */ = {
+			isa = PBXGroup;
+			children = (
+				8483333F1CC6264D006E6E8D /* Nlp100.swift */,
+			);
+			path = nlp;
+			sourceTree = "<group>";
+		};
+		848333411CC739A8006E6E8D /* NN */ = {
+			isa = PBXGroup;
+			children = (
+				848333421CC739C7006E6E8D /* NN.swift */,
+			);
+			path = NN;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -254,6 +284,8 @@
 			files = (
 				848333151CC6259D006E6E8D /* ViewController.swift in Sources */,
 				848333131CC6259D006E6E8D /* AppDelegate.swift in Sources */,
+				848333401CC6264D006E6E8D /* Nlp100.swift in Sources */,
+				848333431CC739C7006E6E8D /* NN.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

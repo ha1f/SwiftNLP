@@ -14,6 +14,8 @@ class ViewController: NSViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
+        Nlp100.check()
     }
 
     override var representedObject: AnyObject? {
@@ -21,7 +23,6 @@ class ViewController: NSViewController {
         // Update the view, if already loaded.
         }
     }
-
 
 }
 
