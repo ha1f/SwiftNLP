@@ -13,21 +13,25 @@ struct TeacherData {
     let output: [Double]
 }
 
-struct Perceptron {
-    private var weights: [Double]
+class Perceptron {
+    private var weights: [Double] = []
+    
+    init(weights: [Double]) {
+        self.weights = weights
+    }
     
     func getOutput(input: [Double]) -> Double? {
         return VectorUtil.calcInnerProduct(input, weights)
     }
     
-    mutating func setWeightAtIndex(weight: Double, index: Int) {
+    func setWeightAtIndex(weight: Double, index: Int) {
         guard index < self.weights.count else {
             return
         }
         self.weights[index] = weight
     }
     
-    mutating func setWeights(weights: [Double]) {
+    func setWeights(weights: [Double]) {
         self.weights = weights
     }
     
@@ -50,42 +54,59 @@ class VectorUtil {
     }
 }
 
+struct MathFunc {
+    private var function: (Double) -> (Double)
+    private var diffFunc: ((Double) -> (Double))?
+    private var diffByOutFunc: ((Double) -> (Double))?
+    
+    static let SMALL_DOUBLE = 0.00001
+    
+    init(_ function: (Double) -> (Double)) {
+        self.function = function
+        diffFunc = nil
+    }
+    
+    init(_ function: (Double) -> (Double), diff: (Double) -> (Double)) {
+        self.function = function
+        self.diffFunc = diff
+    }
+    
+    init(_ function: (Double) -> (Double), diff: (Double) -> (Double), diffByOut: (Double) -> (Double)) {
+        self.function = function
+        self.diffFunc = diff
+        self.diffByOutFunc = diffByOut
+    }
+    
+    func calcDiff(x: Double) -> Double {
+        if let diff = self.diffFunc {
+            return diff(x)
+        }
+        return (function(x+MathFunc.SMALL_DOUBLE) - function(x)) / MathFunc.SMALL_DOUBLE
+    }
+    
+    func calcDiffByOut(out: Double) -> Double {
+        if let diff = self.diffByOutFunc {
+            return diff(out)
+        }
+        return 0.0
+    }
+    
+    func calc(x: Double) -> Double {
+        return function(x)
+    }
+    private static let sigmoidFunc: (Double) -> (Double) = {1.0 / (1 + pow(M_E, $0))}
+    static let SIGMOID = MathFunc(sigmoidFunc, diff: {i in
+        let out = sigmoidFunc(i)
+        return (1 - out) * out
+        }, diffByOut: {out in (1 - out) * out})
+    static let IDENTITY = MathFunc({$0}, diff: {_ in 0.0})
+}
+
 class NNLayer {
     private let perceptrons: [Perceptron]
     var weightFunc: MathFunc
     
     //typealias MathFunc = (Double) -> (Double)
-    
-    struct MathFunc {
-        private var function: (Double) -> (Double)
-        private var diffFunc: ((Double) -> (Double))?
-        
-        static let SMALL_DOUBLE = 0.00001
-        
-        init(_ function: (Double) -> (Double)) {
-            self.function = function
-            diffFunc = nil
-        }
-        
-        init(_ function: (Double) -> (Double), diff: (Double) -> (Double)) {
-            self.function = function
-            self.diffFunc = diff
-        }
-        
-        func getDiff(x: Double) -> Double {
-            if let diff = self.diffFunc {
-                return diff(x)
-            }
-            return (function(x+MathFunc.SMALL_DOUBLE) - function(x)) / MathFunc.SMALL_DOUBLE
-        }
-        
-        func getResult(x: Double) -> Double {
-            return function(x)
-        }
-        private static let sigmoidFunc: (Double) -> (Double) = {1.0 / (1 + pow(M_E, $0))}
-        static let SIGMOID = MathFunc(sigmoidFunc, diff: {(1 - sigmoidFunc($0)) * sigmoidFunc($0)})
-        static let IDENTITY = MathFunc({$0}, diff: {_ in 0.0})
-    }
     
     private static func createPerceptrons(perceptronCount: Int, inputLengh: Int) -> [Perceptron] {
         return (0..<perceptronCount).map({_ in
@@ -105,24 +126,79 @@ class NNLayer {
     }
     
     func getOutput(input: [Double]) -> [Double] {
-        return perceptrons.map({$0.getOutput(input)!}).map(weightFunc.getResult)
+        return perceptrons.map({$0.getOutput(input)!}).map(weightFunc.calc)
     }
     
+    func getDiff(teacherData: TeacherData) -> Double {
+        return zip(getOutput(teacherData.input), teacherData.output).map({pow(($0-$1), 2)}).reduce(0, combine: {$0+$1})/2
+    }
     
     // teacherData, 学習係数
-    func learn(teacherData: TeacherData, eta: Double) {
-        var weights: [Double] = []
+    // 各入力に対する
+    func learn(teacherData: TeacherData, coefs: [[Double]], eta: Double) -> [[Double]]{
         let output = getOutput(teacherData.input)
         
-        // 各入力に対する、出力への係数の合計
-        let diff = zip(output, teacherData.output).map({pow(($0-$1), 2)}).reduce(0, combine: {$0+$1})/2
-        for (o, t) in zip(output, teacherData.output) {
-            
+        // diffs[i][j] = 出力iへのn層への入力j(=n-1層の出力j)の微分
+        // n-1層入力k->n-1層の出力jはw * weightFunc.calcDiff(n-1層入力)
+        // n-1層入力->n層出力はweightFunc.calcDiff(n-1層入力) * diff[i][k]をkについて足しあわせ
+        let diffs = zip(perceptrons, zip(output, teacherData.output)).map { (p, ot) in
+            zip(teacherData.input, p.getWeights()).map{ (input, currentWeight) in
+                 (ot.1 - ot.0) * weightFunc.calcDiffByOut(ot.0)
+            }
         }
         
+        let newDiffs = coefs.enumerate().map{(i,coef) in
+            perceptrons.first!.getWeights().enumerate().map{ n, w in
+                coef.map({coef in coef * w * weightFunc.calcDiff(teacherData.input[n])}).reduce(0){$0+$1}
+            }
+        }
+        
+        for (p, (o, t)) in zip(perceptrons, zip(output, teacherData.output)) {
+            let ws = zip(teacherData.input, p.getWeights()).map{ (input, currentWeight) in
+                currentWeight - eta * (t - o) * weightFunc.calcDiff(input) * input
+            }
+            p.setWeights(ws)
+        }
+        
+        return diffs
     }
 }
 
 class NNModel {
-    var layers: [NNLayer] = []
+    var layers: [NNLayer] = [NNLayer(perceptronCount: 40, inputLengh: 81, weightFunc: MathFunc.SIGMOID),
+                             NNLayer(perceptronCount: 10, inputLengh: 40, weightFunc: MathFunc.SIGMOID)]
+    
+    func getOutput(firstInput: [Double]) -> [Double] {
+        var input = firstInput
+        for layer in layers {
+            input = layer.getOutput(input)
+        }
+        return input
+    }
+    
+    func learn(teacherData: TeacherData) {
+
+        for (i, layer) in layers.reverse().enumerate() {
+            //layer.learn(<#T##teacherData: TeacherData##TeacherData#>, coefs: <#T##[Double]#>, eta: <#T##Double#>)
+        }
+    }
+    
+    /*func learn(teacherData: TeacherData) {
+        var input = teacherData.input
+        var output = teacherData.input
+        for layer in layers {
+            layer.learn(input, eta: <#T##Double#>)
+            input = layer.getOutput(input)
+        }
+    }*/
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }

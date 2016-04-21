@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8421915B1CC8D2680019274D /* NlpUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8421915A1CC8D2680019274D /* NlpUtil.swift */; };
+		8421915D1CC8D4B20019274D /* NewfaceTraining.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8421915C1CC8D4B20019274D /* NewfaceTraining.swift */; };
+		8421915F1CC8D4E70019274D /* Juman.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8421915E1CC8D4E70019274D /* Juman.swift */; };
 		848333131CC6259D006E6E8D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848333121CC6259D006E6E8D /* AppDelegate.swift */; };
 		848333151CC6259D006E6E8D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848333141CC6259D006E6E8D /* ViewController.swift */; };
 		848333171CC6259D006E6E8D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 848333161CC6259D006E6E8D /* Assets.xcassets */; };
@@ -35,6 +38,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8421915A1CC8D2680019274D /* NlpUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NlpUtil.swift; sourceTree = "<group>"; };
+		8421915C1CC8D4B20019274D /* NewfaceTraining.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewfaceTraining.swift; sourceTree = "<group>"; };
+		8421915E1CC8D4E70019274D /* Juman.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Juman.swift; sourceTree = "<group>"; };
 		8483330F1CC6259D006E6E8D /* nlp100.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = nlp100.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		848333121CC6259D006E6E8D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		848333141CC6259D006E6E8D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = nlp100/ViewController.swift; sourceTree = SOURCE_ROOT; };
@@ -140,6 +146,9 @@
 			isa = PBXGroup;
 			children = (
 				8483333F1CC6264D006E6E8D /* Nlp100.swift */,
+				8421915A1CC8D2680019274D /* NlpUtil.swift */,
+				8421915C1CC8D4B20019274D /* NewfaceTraining.swift */,
+				8421915E1CC8D4E70019274D /* Juman.swift */,
 			);
 			path = nlp;
 			sourceTree = "<group>";
@@ -282,10 +291,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8421915F1CC8D4E70019274D /* Juman.swift in Sources */,
 				848333151CC6259D006E6E8D /* ViewController.swift in Sources */,
+				8421915B1CC8D2680019274D /* NlpUtil.swift in Sources */,
 				848333131CC6259D006E6E8D /* AppDelegate.swift in Sources */,
 				848333401CC6264D006E6E8D /* Nlp100.swift in Sources */,
 				848333431CC739C7006E6E8D /* NN.swift in Sources */,
+				8421915D1CC8D4B20019274D /* NewfaceTraining.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -507,6 +519,7 @@
 				848333361CC6259E006E6E8D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		848333371CC6259E006E6E8D /* Build configuration list for PBXNativeTarget "nlp100Tests" */ = {
 			isa = XCConfigurationList;
@@ -515,6 +528,7 @@
 				848333391CC6259E006E6E8D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		8483333A1CC6259E006E6E8D /* Build configuration list for PBXNativeTarget "nlp100UITests" */ = {
 			isa = XCConfigurationList;
@@ -523,6 +537,7 @@
 				8483333C1CC6259E006E6E8D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
